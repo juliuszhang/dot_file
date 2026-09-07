@@ -105,7 +105,7 @@ require("bufferline").setup({
 })
 vim.keymap.set("n", "<S-h>", "<cmd>BufferLineCyclePrev<cr>", { desc = "Previous file tab" })
 vim.keymap.set("n", "<S-l>", "<cmd>BufferLineCycleNext<cr>", { desc = "Next file tab" })
-vim.keymap.set("n", "<leader>bd", "<cmd>bdelete<cr>", { desc = "Close current file (preserve unsaved changes)" })
+vim.keymap.set("n", "<leader>w", "<cmd>bdelete<cr>", { desc = "Close current file (preserve unsaved changes)" })
 vim.g.NERDTreeWinSize = 32
 vim.g.NERDTreeShowHidden = 1
 vim.g.NERDTreeChDirMode = 0
@@ -169,7 +169,6 @@ vim.keymap.set("n", "<leader>fg", "<cmd>Telescope live_grep<cr>", { desc = "Sear
 vim.keymap.set("n", "<leader>fb", "<cmd>Telescope buffers<cr>", { desc = "Find open buffers" })
 vim.keymap.set("n", "<leader>fh", "<cmd>Telescope help_tags<cr>", { desc = "Search help" })
 vim.keymap.set("n", "<leader><leader>", "<Plug>(easymotion-overwin-f2)", { desc = "EasyMotion: two characters" })
-vim.keymap.set({ "n", "x", "o" }, "<leader>w", "<Plug>(easymotion-bd-w)", { desc = "EasyMotion: word" })
 vim.keymap.set({ "n", "x", "o" }, "<leader>j", "<Plug>(easymotion-j)", { desc = "EasyMotion: line below" })
 vim.keymap.set({ "n", "x", "o" }, "<leader>k", "<Plug>(easymotion-k)", { desc = "EasyMotion: line above" })
 

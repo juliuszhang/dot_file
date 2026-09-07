@@ -36,7 +36,7 @@ Java/Lua 使用 Neovim 原生 LSP 自动补全。输入字母或触发字符时�
 | `<leader>a` | 切换 Git blame（再次按下关闭） |
 | `<leader>n` / `<leader>N` | NERDTree 开关 / 定位当前文件 |
 | `Shift-h` / `Shift-l` | 前一个 / 后一个文件标签 |
-| `<leader>bd` | 关闭当前文件，未保存时阻止关闭 |
+| `<leader>w` | 关闭当前文件，未保存时阻止关闭 |
 | `<leader>ff` / `<leader>fg` | 文件 / 全文搜索 |
 | `<leader>cs` / `<leader>ds` | 项目 / 当前文件符号 |
 | `<leader>e` / `<leader>fd` | 当前行诊断 / 诊断列表 |
