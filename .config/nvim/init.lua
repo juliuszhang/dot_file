@@ -71,9 +71,13 @@ vim.opt.showmode = false
 vim.opt.showtabline = 2
 vim.opt.hidden = true
 vim.opt.mouse = "a"
+local statusline_theme = vim.deepcopy(require("lualine.themes.auto"))
+statusline_theme.normal.a = { fg = "#10243A", bg = "#7AA2F7", gui = "bold" }
+statusline_theme.normal.b = { fg = "#B9D3FF", bg = "#243852" }
+statusline_theme.normal.c = { fg = "#C0CAF5", bg = "#1B2536" }
 require("lualine").setup({
   options = {
-    theme = "auto",
+    theme = statusline_theme,
     globalstatus = true,
     icons_enabled = true,
     component_separators = "|",
