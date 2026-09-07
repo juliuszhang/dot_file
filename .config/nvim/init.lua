@@ -93,11 +93,42 @@ require("lualine").setup({
     lualine_z = { "location" },
   },
 })
+-- Remove a file tab without removing the windows that display it.
+local function close_file_tab(buf)
+  buf = buf or vim.api.nvim_get_current_buf()
+  if not vim.api.nvim_buf_is_valid(buf) then return end
+  if vim.bo[buf].buftype ~= "" then
+    vim.notify("请在代码窗口中关闭文件标签。", vim.log.levels.INFO)
+    return
+  end
+  if vim.bo[buf].modified then
+    vim.notify("文件尚未保存，请先 :w 保存后再关闭。", vim.log.levels.WARN)
+    return
+  end
+  local function usable(candidate)
+    return candidate ~= buf and vim.api.nvim_buf_is_valid(candidate)
+      and vim.bo[candidate].buflisted and vim.bo[candidate].buftype == ""
+  end
+  local replacement = vim.fn.bufnr("#")
+  if not usable(replacement) then
+    replacement = nil
+    for _, candidate in ipairs(vim.api.nvim_list_bufs()) do
+      if usable(candidate) then replacement = candidate; break end
+    end
+  end
+  for _, win in ipairs(vim.api.nvim_list_wins()) do
+    if vim.api.nvim_win_get_buf(win) == buf then
+      replacement = replacement or vim.api.nvim_create_buf(true, false)
+      vim.api.nvim_win_set_buf(win, replacement)
+    end
+  end
+  vim.api.nvim_buf_delete(buf, { force = false })
+end
 require("bufferline").setup({
   options = {
     mode = "buffers", -- Editor-style file tabs; Vim tab pages remain available.
-    close_command = "bdelete %d",
-    right_mouse_command = "bdelete %d",
+    close_command = close_file_tab,
+    right_mouse_command = close_file_tab,
     diagnostics = "nvim_lsp",
     always_show_bufferline = true,
     show_buffer_icons = true,
@@ -110,7 +141,7 @@ require("bufferline").setup({
 })
 vim.keymap.set("n", "<S-h>", "<cmd>BufferLineCyclePrev<cr>", { desc = "Previous file tab" })
 vim.keymap.set("n", "<S-l>", "<cmd>BufferLineCycleNext<cr>", { desc = "Next file tab" })
-vim.keymap.set("n", "<leader>w", "<cmd>bdelete<cr>", { desc = "Close current file (preserve unsaved changes)" })
+vim.keymap.set("n", "<leader>w", function() close_file_tab() end, { desc = "Close file tab, keep window layout" })
 vim.g.NERDTreeWinSize = 32
 vim.g.NERDTreeShowHidden = 1
 vim.g.NERDTreeChDirMode = 0
