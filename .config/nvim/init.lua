@@ -50,6 +50,7 @@ vim.api.nvim_create_autocmd("PackChanged", {
   end,
 })
 vim.pack.add({
+  { src = "https://github.com/preservim/nerdtree" },
   { src = "https://github.com/tpope/vim-fugitive" },
   { src = "https://github.com/nvim-lua/plenary.nvim" },
   { src = "https://github.com/nvim-telescope/telescope.nvim", version = vim.version.range("*") },
@@ -60,6 +61,11 @@ vim.pack.add({
   { src = "https://github.com/mfussenegger/nvim-jdtls" },
 })
 require("mason").setup({})
+vim.g.NERDTreeWinSize = 32
+vim.g.NERDTreeShowHidden = 1
+vim.g.NERDTreeChDirMode = 0
+vim.keymap.set("n", "<leader>n", "<cmd>NERDTreeToggle<cr>", { desc = "Toggle file tree" })
+vim.keymap.set("n", "<leader>N", "<cmd>NERDTreeFind<cr>", { desc = "Locate current file in tree" })
 vim.lsp.config("lua_ls", {
   cmd = { vim.fn.stdpath("data") .. "/mason/bin/lua-language-server" },
   filetypes = { "lua" },
