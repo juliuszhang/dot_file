@@ -105,7 +105,21 @@ vim.api.nvim_create_autocmd("FileType", {
   end,
 })
 vim.keymap.set("n", "<leader>ff", "<cmd>Telescope find_files<cr>", { desc = "Find files" })
-vim.keymap.set("n", "<leader>a", "<cmd>Git blame<cr>", { desc = "Git annotate (blame)" })
+vim.keymap.set("n", "<leader>a", function()
+  local original_win = vim.api.nvim_get_current_win()
+  for _, win in ipairs(vim.api.nvim_tabpage_list_wins(0)) do
+    if vim.bo[vim.api.nvim_win_get_buf(win)].filetype == "fugitiveblame" then
+      vim.api.nvim_set_current_win(win)
+      -- Use Fugitive's own close action to restore the source window.
+      vim.cmd.normal("gq")
+      if vim.api.nvim_win_is_valid(original_win) then
+        vim.api.nvim_set_current_win(original_win)
+      end
+      return
+    end
+  end
+  vim.cmd("Git blame")
+end, { desc = "Toggle Git annotate (blame)" })
 vim.keymap.set("n", "<leader>fg", "<cmd>Telescope live_grep<cr>", { desc = "Search project text" })
 vim.keymap.set("n", "<leader>fb", "<cmd>Telescope buffers<cr>", { desc = "Find open buffers" })
 vim.keymap.set("n", "<leader>fh", "<cmd>Telescope help_tags<cr>", { desc = "Search help" })

@@ -31,7 +31,7 @@ Java/Lua 使用 Neovim 原生 LSP 自动补全。输入字母或触发字符时�
 | --- | --- |
 | `gd` / `gy` / `gi` / `gr` | 定义 / 类型 / 实现 / 引用 |
 | `<leader>i` | Java 整理导包 |
-| `<leader>a` | Git blame |
+| `<leader>a` | 切换 Git blame（再次按下关闭） |
 | `<leader>n` / `<leader>N` | NERDTree 开关 / 定位当前文件 |
 | `<leader>ff` / `<leader>fg` | 文件 / 全文搜索 |
 | `<leader>cs` / `<leader>ds` | 项目 / 当前文件符号 |
