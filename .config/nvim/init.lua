@@ -118,7 +118,15 @@ vim.keymap.set("n", "<leader>l", "<cmd>NERDTreeFind<cr>", { desc = "Locate curre
 vim.lsp.config("lua_ls", {
   cmd = { vim.fn.stdpath("data") .. "/mason/bin/lua-language-server" },
   filetypes = { "lua" },
-  root_markers = { ".luarc.json", ".luarc.jsonc", ".git" },
+  root_dir = function(bufnr, on_dir)
+    local file = vim.fs.normalize(vim.api.nvim_buf_get_name(bufnr))
+    local config_dir = vim.fs.normalize(vim.fn.stdpath("config"))
+    if vim.startswith(file, config_dir .. "/") then
+      on_dir(config_dir)
+    else
+      on_dir(vim.fs.root(bufnr, { ".luarc.json", ".luarc.jsonc", ".git" }) or vim.fs.dirname(file))
+    end
+  end,
   settings = {
     Lua = {
       completion = { callSnippet = "Replace" },
@@ -195,7 +203,8 @@ vim.api.nvim_create_autocmd("LspAttach", {
     map("gD", vim.lsp.buf.declaration, "Go to declaration")
     map("gy", function() require("telescope.builtin").lsp_type_definitions() end, "Go to class/type")
     map("gi", function() require("telescope.builtin").lsp_implementations({ jump_type = "never" }) end, "Go to implementation")
-    map("gr", function() require("telescope.builtin").lsp_references() end, "Find references")
+    vim.keymap.set("n", "gr", function() require("telescope.builtin").lsp_references() end,
+      { buffer = event.buf, nowait = true, desc = "Find references" })
     map("K", vim.lsp.buf.hover, "Documentation")
     map("<leader>rn", vim.lsp.buf.rename, "Rename symbol")
     map("<leader>ca", vim.lsp.buf.code_action, "Code action")

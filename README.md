@@ -17,7 +17,9 @@ Neovim 首次启动会由内置 `vim.pack` 安装锁定版本的插件。随后�
 
 等待安装完成后重新打开 Java 文件。更新插件使用 `:lua vim.pack.update()`。
 
-Java 启动配置会优先使用 `JAVA_HOME`，否则寻找 Homebrew 的 OpenJDK；`JAVA_HOME` 必须指向能启动 jdtls 的现代 JDK。Java 8 项目需另行配置项目 runtime。
+Java LSP 会依次检查 `JDTLS_JAVA_HOME`、`JAVA_HOME`、Homebrew 和 macOS 注册的 JDK，仅选用 JDK 21+ 启动 jdtls。项目的 `JAVA_HOME` 可以保留为 Java 8；Java 8 项目仍需另行配置项目 runtime。可设置 `JDTLS_JAVA_HOME` 单独指定语言服务器的 JDK。
+
+编辑 `~/.config/nvim` 内的 Lua 文件时，自动以该目录为 LSP 根目录并加载 LuaJIT、`vim` 全局变量和 Neovim API 库。其他 Lua 项目按自己的配置文件或 Git 根目录识别。
 
 tmux 使用 `tmux source-file ~/.tmux.conf` 加载。复制功能调用 macOS 的 `pbcopy`；当前重载快捷键使用 `/Users/hikari/.tmux.conf`，其他用户名需调整该路径。
 
@@ -28,6 +30,8 @@ Neovim Leader 是空格：
 底部 lualine 显示模式、文件名、诊断、文件类型图标和位置；顶部 bufferline 显示已打开文件（buffer 标签）。使用支持真彩色的终端，字体选择 Nerd Font（本机已安装 JetBrainsMono Nerd Font）。
 
 Java/Lua 使用 Neovim 原生 LSP 自动补全。输入字母或触发字符时弹出候选，`Ctrl-n` / `Ctrl-p` 选择，回车确认已选项，`Ctrl-y` 接受，`Ctrl-e` 关闭，`Ctrl-Space` 手动触发。
+
+`gr` 立即打开 Telescope 引用列表，不再等待默认 `gr…` 按键序列；重命名使用 `<leader>rn`，代码操作使用 `<leader>ca`。`Shift-h/l` 用于切换文件，覆盖 Vim 原生的屏幕顶部/底部跳转。
 
 | 按键 | 功能 |
 | --- | --- |
