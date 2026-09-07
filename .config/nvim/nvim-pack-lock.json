@@ -44,6 +44,10 @@
       "src": "https://github.com/nvim-telescope/telescope.nvim",
       "version": ">=0.0.0"
     },
+    "vim-abolish": {
+      "rev": "dcbfe065297d31823561ba787f51056c147aa682",
+      "src": "https://github.com/tpope/vim-abolish"
+    },
     "vim-easymotion": {
       "rev": "b3cfab2a6302b3b39f53d9fd2cd997e1127d7878",
       "src": "https://github.com/easymotion/vim-easymotion"

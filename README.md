@@ -45,6 +45,8 @@ Java/Lua 使用 Neovim 原生 LSP 自动补全。输入字母或触发字符时�
 | `<leader>cs` / `<leader>ds` | 项目 / 当前文件符号 |
 | `<leader>D` / `<leader>fd` | 当前行诊断 / 诊断列表 |
 | `[d` / `]d` | 前一个 / 后一个诊断 |
+| `crc` / `crp` | 当前单词转小驼峰 / 大驼峰 |
+| `crs` / `cru` | 当前单词转下划线 / 全大写下划线 |
 | `<leader><leader>` | EasyMotion 双字符跳转（连续按两次空格） |
 | `ysiw)` / `ds\"` | Surround 添加括号 / 删除双引号 |
 

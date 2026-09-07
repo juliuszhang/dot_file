@@ -50,6 +50,7 @@ vim.api.nvim_create_autocmd("PackChanged", {
   end,
 })
 vim.pack.add({
+  { src = "https://github.com/tpope/vim-abolish" },
   { src = "https://github.com/nvim-tree/nvim-web-devicons" },
   { src = "https://github.com/nvim-lualine/lualine.nvim" },
   { src = "https://github.com/akinsho/bufferline.nvim", version = vim.version.range("4.x") },
