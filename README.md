@@ -41,7 +41,7 @@ Java/Lua 使用 Neovim 原生 LSP 自动补全。输入字母或触发字符时�
 | `<leader>cs` / `<leader>ds` | 项目 / 当前文件符号 |
 | `<leader>e` / `<leader>fd` | 当前行诊断 / 诊断列表 |
 | `[d` / `]d` | 前一个 / 后一个诊断 |
-| `<leader>s` | EasyMotion 双字符跳转 |
+| `<leader><leader>` | EasyMotion 双字符跳转（连续按两次空格） |
 | `ysiw)` / `ds\"` | Surround 添加括号 / 删除双引号 |
 
 tmux Prefix 是 `Ctrl-a`：`-` 上下分屏、`|` 左右分屏、`h/j/k/l` 切换窗格、`H/J/K/L` 调整尺寸、`r` 重载配置。`Prefix [` 进入 vi 复制模式，`v` 选择，`y` 复制，`q` 退出。
