@@ -11,7 +11,7 @@ macOS 上的 Neovim 和 tmux 配置。
 Neovim 首次启动会由内置 `vim.pack` 安装锁定版本的插件。随后运行：
 
 ```vim
-:MasonInstall jdtls
+:MasonInstall jdtls lua-language-server
 :lua require('nvim-treesitter').install({'java', 'lua'})
 ```
 
@@ -24,6 +24,8 @@ tmux 使用 `tmux source-file ~/.tmux.conf` 加载。复制功能调用 macOS �
 ## 快捷键
 
 Neovim Leader 是空格：
+
+Java/Lua 使用 Neovim 原生 LSP 自动补全。输入字母或触发字符时弹出候选，`Ctrl-n` / `Ctrl-p` 选择，回车确认已选项，`Ctrl-y` 接受，`Ctrl-e` 关闭，`Ctrl-Space` 手动触发。
 
 | 按键 | 功能 |
 | --- | --- |

@@ -15,6 +15,13 @@ vim.g.mapleader = " "
 vim.g.maplocalleader = " "
 vim.keymap.set({ "n", "x" }, "<Space>", "<Nop>", { silent = true })
 
+-- Native LSP completion: select explicitly, never insert a suggestion by accident.
+vim.opt.completeopt = { "menu", "menuone", "noselect", "popup" }
+vim.keymap.set("i", "<C-Space>", vim.lsp.completion.get, { desc = "Show completions" })
+vim.keymap.set("i", "<CR>", function()
+  return vim.fn.pumvisible() == 1 and vim.fn.complete_info({ "selected" }).selected >= 0 and "<C-y>" or "<CR>"
+end, { expr = true, desc = "Accept selected completion or newline" })
+
 vim.opt.signcolumn = "yes"
 vim.diagnostic.enable(true)
 vim.diagnostic.config({
@@ -53,6 +60,28 @@ vim.pack.add({
   { src = "https://github.com/mfussenegger/nvim-jdtls" },
 })
 require("mason").setup({})
+vim.lsp.config("lua_ls", {
+  cmd = { vim.fn.stdpath("data") .. "/mason/bin/lua-language-server" },
+  filetypes = { "lua" },
+  root_markers = { ".luarc.json", ".luarc.jsonc", ".git" },
+  settings = {
+    Lua = {
+      completion = { callSnippet = "Replace" },
+      workspace = { checkThirdParty = false },
+    },
+  },
+  on_init = function(client)
+    if vim.fs.normalize(client.root_dir or "") == vim.fs.normalize(vim.fn.stdpath("config")) then
+      client.config.settings.Lua.runtime = { version = "LuaJIT" }
+      client.config.settings.Lua.diagnostics = { globals = { "vim" } }
+      client.config.settings.Lua.workspace.library = { vim.env.VIMRUNTIME }
+      client:notify("workspace/didChangeConfiguration", { settings = client.config.settings })
+    end
+  end,
+})
+if vim.fn.executable(vim.fn.stdpath("data") .. "/mason/bin/lua-language-server") == 1 then
+  vim.lsp.enable("lua_ls")
+end
 require("nvim-surround").setup({})
 require("telescope").setup({})
 require("nvim-treesitter").setup({})
@@ -82,6 +111,15 @@ vim.keymap.set({ "n", "x", "o" }, "<leader>k", "<Plug>(easymotion-k)", { desc = 
 vim.api.nvim_create_autocmd("LspAttach", {
   group = vim.api.nvim_create_augroup("UserLspKeys", { clear = true }),
   callback = function(event)
+    local client = vim.lsp.get_client_by_id(event.data.client_id)
+    if client and client:supports_method("textDocument/completion") then
+      local triggers = client.server_capabilities.completionProvider.triggerCharacters or {}
+      for char in ("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_$"):gmatch(".") do
+        if not vim.tbl_contains(triggers, char) then triggers[#triggers + 1] = char end
+      end
+      client.server_capabilities.completionProvider.triggerCharacters = triggers
+      vim.lsp.completion.enable(true, client.id, event.buf, { autotrigger = true })
+    end
     local function map(key, action, description)
       vim.keymap.set("n", key, action, { buffer = event.buf, desc = description })
     end
