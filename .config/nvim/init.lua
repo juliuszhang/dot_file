@@ -50,6 +50,9 @@ vim.api.nvim_create_autocmd("PackChanged", {
   end,
 })
 vim.pack.add({
+  { src = "https://github.com/nvim-tree/nvim-web-devicons" },
+  { src = "https://github.com/nvim-lualine/lualine.nvim" },
+  { src = "https://github.com/akinsho/bufferline.nvim", version = vim.version.range("4.x") },
   { src = "https://github.com/preservim/nerdtree" },
   { src = "https://github.com/tpope/vim-fugitive" },
   { src = "https://github.com/nvim-lua/plenary.nvim" },
@@ -61,6 +64,48 @@ vim.pack.add({
   { src = "https://github.com/mfussenegger/nvim-jdtls" },
 })
 require("mason").setup({})
+require("nvim-web-devicons").setup({ default = true })
+vim.opt.termguicolors = true
+vim.opt.laststatus = 3
+vim.opt.showmode = false
+vim.opt.showtabline = 2
+vim.opt.hidden = true
+vim.opt.mouse = "a"
+require("lualine").setup({
+  options = {
+    theme = "auto",
+    globalstatus = true,
+    icons_enabled = true,
+    component_separators = "|",
+    section_separators = "",
+  },
+  sections = {
+    lualine_a = { "mode" },
+    lualine_b = { "branch", "diagnostics" },
+    lualine_c = { { "filename", path = 1 } },
+    lualine_x = { "encoding", { "filetype", colored = true, icon_only = false } },
+    lualine_y = { "progress" },
+    lualine_z = { "location" },
+  },
+})
+require("bufferline").setup({
+  options = {
+    mode = "buffers", -- Editor-style file tabs; Vim tab pages remain available.
+    close_command = "bdelete %d",
+    right_mouse_command = "bdelete %d",
+    diagnostics = "nvim_lsp",
+    always_show_bufferline = true,
+    show_buffer_icons = true,
+    separator_style = "thin",
+    offsets = { { filetype = "nerdtree", text = "Files", text_align = "center" } },
+    custom_filter = function(buf)
+      return vim.bo[buf].buftype == ""
+    end,
+  },
+})
+vim.keymap.set("n", "<S-h>", "<cmd>BufferLineCyclePrev<cr>", { desc = "Previous file tab" })
+vim.keymap.set("n", "<S-l>", "<cmd>BufferLineCycleNext<cr>", { desc = "Next file tab" })
+vim.keymap.set("n", "<leader>bd", "<cmd>bdelete<cr>", { desc = "Close current file (preserve unsaved changes)" })
 vim.g.NERDTreeWinSize = 32
 vim.g.NERDTreeShowHidden = 1
 vim.g.NERDTreeChDirMode = 0

@@ -25,6 +25,8 @@ tmux 使用 `tmux source-file ~/.tmux.conf` 加载。复制功能调用 macOS �
 
 Neovim Leader 是空格：
 
+底部 lualine 显示模式、文件名、诊断、文件类型图标和位置；顶部 bufferline 显示已打开文件（buffer 标签）。使用支持真彩色的终端，字体选择 Nerd Font（本机已安装 JetBrainsMono Nerd Font）。
+
 Java/Lua 使用 Neovim 原生 LSP 自动补全。输入字母或触发字符时弹出候选，`Ctrl-n` / `Ctrl-p` 选择，回车确认已选项，`Ctrl-y` 接受，`Ctrl-e` 关闭，`Ctrl-Space` 手动触发。
 
 | 按键 | 功能 |
@@ -33,6 +35,8 @@ Java/Lua 使用 Neovim 原生 LSP 自动补全。输入字母或触发字符时�
 | `<leader>i` | Java 整理导包 |
 | `<leader>a` | 切换 Git blame（再次按下关闭） |
 | `<leader>n` / `<leader>N` | NERDTree 开关 / 定位当前文件 |
+| `Shift-h` / `Shift-l` | 前一个 / 后一个文件标签 |
+| `<leader>bd` | 关闭当前文件，未保存时阻止关闭 |
 | `<leader>ff` / `<leader>fg` | 文件 / 全文搜索 |
 | `<leader>cs` / `<leader>ds` | 项目 / 当前文件符号 |
 | `<leader>e` / `<leader>fd` | 当前行诊断 / 诊断列表 |
