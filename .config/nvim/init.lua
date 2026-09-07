@@ -32,7 +32,7 @@ vim.diagnostic.config({
   update_in_insert = false,
   float = { border = "rounded", source = true },
 })
-vim.keymap.set("n", "<leader>e", function() vim.diagnostic.open_float({ scope = "line" }) end, { desc = "Line diagnostics" })
+vim.keymap.set("n", "<leader>D", function() vim.diagnostic.open_float({ scope = "line" }) end, { desc = "Line diagnostics" })
 vim.keymap.set("n", "<leader>fd", function() require("telescope.builtin").diagnostics() end, { desc = "Search diagnostics" })
 vim.keymap.set("n", "[d", function() vim.diagnostic.jump({ count = -1, float = true }) end, { desc = "Previous diagnostic" })
 vim.keymap.set("n", "]d", function() vim.diagnostic.jump({ count = 1, float = true }) end, { desc = "Next diagnostic" })
@@ -109,8 +109,8 @@ vim.keymap.set("n", "<leader>w", "<cmd>bdelete<cr>", { desc = "Close current fil
 vim.g.NERDTreeWinSize = 32
 vim.g.NERDTreeShowHidden = 1
 vim.g.NERDTreeChDirMode = 0
-vim.keymap.set("n", "<leader>n", "<cmd>NERDTreeToggle<cr>", { desc = "Toggle file tree" })
-vim.keymap.set("n", "<leader>N", "<cmd>NERDTreeFind<cr>", { desc = "Locate current file in tree" })
+vim.keymap.set("n", "<leader>e", "<cmd>NERDTreeToggle<cr>", { desc = "Toggle file tree" })
+vim.keymap.set("n", "<leader>l", "<cmd>NERDTreeFind<cr>", { desc = "Locate current file in tree" })
 vim.lsp.config("lua_ls", {
   cmd = { vim.fn.stdpath("data") .. "/mason/bin/lua-language-server" },
   filetypes = { "lua" },

@@ -34,12 +34,12 @@ Java/Lua 使用 Neovim 原生 LSP 自动补全。输入字母或触发字符时�
 | `gd` / `gy` / `gi` / `gr` | 定义 / 类型 / 实现 / 引用 |
 | `<leader>i` | Java 整理导包 |
 | `<leader>a` | 切换 Git blame（再次按下关闭） |
-| `<leader>n` / `<leader>N` | NERDTree 开关 / 定位当前文件 |
+| `<leader>e` / `<leader>l` | NERDTree 开关 / 定位当前文件 |
 | `Shift-h` / `Shift-l` | 前一个 / 后一个文件标签 |
 | `<leader>w` | 关闭当前文件，未保存时阻止关闭 |
 | `<leader>ff` / `<leader>fg` | 文件 / 全文搜索 |
 | `<leader>cs` / `<leader>ds` | 项目 / 当前文件符号 |
-| `<leader>e` / `<leader>fd` | 当前行诊断 / 诊断列表 |
+| `<leader>D` / `<leader>fd` | 当前行诊断 / 诊断列表 |
 | `[d` / `]d` | 前一个 / 后一个诊断 |
 | `<leader><leader>` | EasyMotion 双字符跳转（连续按两次空格） |
 | `ysiw)` / `ds\"` | Surround 添加括号 / 删除双引号 |
