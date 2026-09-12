@@ -1,3 +1,6 @@
+-- Use the system clipboard for default yank, delete, and paste operations.
+vim.opt.clipboard = "unnamedplus"
+
 -- Show the current line number and relative numbers on surrounding lines.
 vim.opt.number = true
 vim.opt.relativenumber = true
@@ -6,21 +9,10 @@ vim.opt.relativenumber = true
 vim.cmd("filetype plugin indent on")
 vim.cmd("syntax enable")
 
--- The default theme renders Java types/keywords like normal text.
--- This bundled theme supplies distinct GUI and 256-color terminal colors.
-vim.cmd("colorscheme habamax")
-
 -- Set leaders before loading any plugins or mappings.
 vim.g.mapleader = " "
 vim.g.maplocalleader = " "
 vim.keymap.set({ "n", "x" }, "<Space>", "<Nop>", { silent = true })
-
--- Native LSP completion: select explicitly, never insert a suggestion by accident.
-vim.opt.completeopt = { "menu", "menuone", "noselect", "popup" }
-vim.keymap.set("i", "<C-Space>", vim.lsp.completion.get, { desc = "Show completions" })
-vim.keymap.set("i", "<CR>", function()
-  return vim.fn.pumvisible() == 1 and vim.fn.complete_info({ "selected" }).selected >= 0 and "<C-y>" or "<CR>"
-end, { expr = true, desc = "Accept selected completion or newline" })
 
 vim.opt.signcolumn = "yes"
 vim.diagnostic.enable(true)
@@ -33,13 +25,17 @@ vim.diagnostic.config({
   float = { border = "rounded", source = true },
 })
 vim.keymap.set("n", "<leader>D", function() vim.diagnostic.open_float({ scope = "line" }) end, { desc = "Line diagnostics" })
+vim.keymap.set("n", "<leader>F", function() vim.lsp.buf.format() end, { desc = "Format current buffer" })
 vim.keymap.set("n", "<leader>fd", function() require("telescope.builtin").diagnostics() end, { desc = "Search diagnostics" })
 vim.keymap.set("n", "[d", function() vim.diagnostic.jump({ count = -1, float = true }) end, { desc = "Previous diagnostic" })
 vim.keymap.set("n", "]d", function() vim.diagnostic.jump({ count = 1, float = true }) end, { desc = "Next diagnostic" })
 
 -- Native Neovim 0.12 plugin management: :lua vim.pack.update()
-vim.g.EasyMotion_do_mapping = 0
-vim.g.EasyMotion_smartcase = 1
+-- Multi-cursor: press Ctrl+n repeatedly to select the word/subword under the cursor.
+vim.g.VM_maps = {
+  ["Find Under"] = "<C-n>",
+  ["Find Subword Under"] = "<C-n>",
+}
 vim.api.nvim_create_autocmd("PackChanged", {
   group = vim.api.nvim_create_augroup("UserPackHooks", { clear = true }),
   callback = function(event)
@@ -50,6 +46,7 @@ vim.api.nvim_create_autocmd("PackChanged", {
   end,
 })
 vim.pack.add({
+  { src = "https://github.com/catppuccin/nvim", name = "catppuccin" },
   { src = "https://github.com/tpope/vim-abolish" },
   { src = "https://github.com/nvim-tree/nvim-web-devicons" },
   { src = "https://github.com/nvim-lualine/lualine.nvim" },
@@ -60,11 +57,43 @@ vim.pack.add({
   { src = "https://github.com/nvim-telescope/telescope.nvim", version = vim.version.range("*") },
   { src = "https://github.com/nvim-treesitter/nvim-treesitter", version = "main" },
   { src = "https://github.com/kylechui/nvim-surround", version = vim.version.range("4.x") },
-  { src = "https://github.com/easymotion/vim-easymotion" },
+  { src = "https://github.com/windwp/nvim-autopairs" },
+  { src = "https://github.com/mg979/vim-visual-multi" },
+  { src = "https://github.com/folke/flash.nvim", version = vim.version.range("*") },
   { src = "https://github.com/mason-org/mason.nvim" },
   { src = "https://github.com/mfussenegger/nvim-jdtls" },
+  { src = "https://github.com/saghen/blink.cmp", version = vim.version.range("1.x") },
+  { src = "https://github.com/rafamadriz/friendly-snippets" },
 })
+vim.opt.termguicolors = true
+require("catppuccin").setup({
+  flavour = "mocha",
+  custom_highlights = function(colors)
+    return {
+      LineNr = { fg = colors.subtext0 },
+      LineNrAbove = { fg = colors.subtext0 },
+      LineNrBelow = { fg = colors.subtext0 },
+      CursorLineNr = { fg = colors.yellow, bold = true },
+    }
+  end,
+})
+vim.cmd("colorscheme catppuccin-mocha")
+
 require("mason").setup({})
+require("blink.cmp").setup({
+  keymap = {
+    preset = "enter",
+    ["<C-Space>"] = {},
+  },
+  completion = {
+    list = { selection = { preselect = true, auto_insert = false } },
+    documentation = { auto_show = true, auto_show_delay_ms = 300 },
+  },
+  sources = { default = { "lsp", "path", "snippets", "buffer" } },
+  fuzzy = { implementation = "lua" },
+  signature = { enabled = true },
+})
+local lsp_capabilities = require("blink.cmp").get_lsp_capabilities()
 require("nvim-web-devicons").setup({ default = true })
 vim.opt.termguicolors = true
 vim.opt.laststatus = 3
@@ -72,13 +101,9 @@ vim.opt.showmode = false
 vim.opt.showtabline = 2
 vim.opt.hidden = true
 vim.opt.mouse = "a"
-local statusline_theme = vim.deepcopy(require("lualine.themes.auto"))
-statusline_theme.normal.a = { fg = "#10243A", bg = "#7AA2F7", gui = "bold" }
-statusline_theme.normal.b = { fg = "#B9D3FF", bg = "#243852" }
-statusline_theme.normal.c = { fg = "#C0CAF5", bg = "#1B2536" }
 require("lualine").setup({
   options = {
-    theme = statusline_theme,
+    theme = "catppuccin",
     globalstatus = true,
     icons_enabled = true,
     component_separators = "|",
@@ -142,6 +167,19 @@ require("bufferline").setup({
 vim.keymap.set("n", "<S-h>", "<cmd>BufferLineCyclePrev<cr>", { desc = "Previous file tab" })
 vim.keymap.set("n", "<S-l>", "<cmd>BufferLineCycleNext<cr>", { desc = "Next file tab" })
 vim.keymap.set("n", "<leader>w", function() close_file_tab() end, { desc = "Close file tab, keep window layout" })
+vim.keymap.set("n", "<leader>W", function()
+  local current = vim.api.nvim_get_current_buf()
+  if vim.bo[current].buftype ~= "" then
+    vim.notify("请在代码窗口中关闭其他文件标签。", vim.log.levels.INFO)
+    return
+  end
+  for _, buf in ipairs(vim.api.nvim_list_bufs()) do
+    if buf ~= current and vim.api.nvim_buf_is_valid(buf)
+      and vim.bo[buf].buflisted and vim.bo[buf].buftype == "" then
+      close_file_tab(buf)
+    end
+  end
+end, { desc = "Close other file tabs, keep window layout" })
 vim.g.NERDTreeWinSize = 32
 vim.g.NERDTreeShowHidden = 1
 vim.g.NERDTreeChDirMode = 0
@@ -149,6 +187,7 @@ vim.keymap.set("n", "<leader>e", "<cmd>NERDTreeToggle<cr>", { desc = "Toggle fil
 vim.keymap.set("n", "<leader>l", "<cmd>NERDTreeFind<cr>", { desc = "Locate current file in tree" })
 vim.lsp.config("lua_ls", {
   cmd = { vim.fn.stdpath("data") .. "/mason/bin/lua-language-server" },
+  capabilities = lsp_capabilities,
   filetypes = { "lua" },
   root_dir = function(bufnr, on_dir)
     local file = vim.fs.normalize(vim.api.nvim_buf_get_name(bufnr))
@@ -177,7 +216,20 @@ vim.lsp.config("lua_ls", {
 if vim.fn.executable(vim.fn.stdpath("data") .. "/mason/bin/lua-language-server") == 1 then
   vim.lsp.enable("lua_ls")
 end
+vim.lsp.config("ts_ls", {
+  cmd = { vim.fn.stdpath("data") .. "/mason/bin/typescript-language-server", "--stdio" },
+  capabilities = lsp_capabilities,
+  filetypes = { "javascript", "javascriptreact", "typescript", "typescriptreact" },
+  root_dir = function(bufnr, on_dir)
+    on_dir(vim.fs.root(bufnr, { "tsconfig.json", "jsconfig.json", "package.json", ".git" }))
+  end,
+})
+if vim.fn.executable(vim.fn.stdpath("data") .. "/mason/bin/typescript-language-server") == 1 then
+  vim.lsp.enable("ts_ls")
+end
 require("nvim-surround").setup({})
+require("nvim-autopairs").setup({})
+require("flash").setup({ modes = { char = { enabled = false } } })
 require("telescope").setup({})
 require("nvim-treesitter").setup({})
 vim.api.nvim_create_autocmd("FileType", {
@@ -207,27 +259,32 @@ vim.keymap.set("n", "<leader>a", function()
       return
     end
   end
+  if vim.fn.FugitiveGitDir() == "" then
+    vim.notify("Current file is not in a Git repository", vim.log.levels.WARN)
+    return
+  end
   vim.cmd("Git blame")
 end, { desc = "Toggle Git annotate (blame)" })
 vim.keymap.set("n", "<leader>fg", "<cmd>Telescope live_grep<cr>", { desc = "Search project text" })
 vim.keymap.set("n", "<leader>fb", "<cmd>Telescope buffers<cr>", { desc = "Find open buffers" })
 vim.keymap.set("n", "<leader>fh", "<cmd>Telescope help_tags<cr>", { desc = "Search help" })
-vim.keymap.set("n", "<leader><leader>", "<Plug>(easymotion-overwin-f2)", { desc = "EasyMotion: two characters" })
-vim.keymap.set({ "n", "x", "o" }, "<leader>j", "<Plug>(easymotion-j)", { desc = "EasyMotion: line below" })
-vim.keymap.set({ "n", "x", "o" }, "<leader>k", "<Plug>(easymotion-k)", { desc = "EasyMotion: line above" })
+vim.keymap.set({ "n", "x", "o" }, "<leader><leader>s", function()
+  require("flash").jump()
+end, { desc = "Flash: search and jump" })
+
+local function flash_line(forward)
+  require("flash").jump({
+    search = { mode = "search", max_length = 0, forward = forward, wrap = false, multi_window = false },
+    label = { after = { 0, 0 } },
+    pattern = "^",
+  })
+end
+vim.keymap.set({ "n", "x", "o" }, "<leader><leader>j", function() flash_line(true) end, { desc = "Flash: line below" })
+vim.keymap.set({ "n", "x", "o" }, "<leader><leader>k", function() flash_line(false) end, { desc = "Flash: line above" })
 
 vim.api.nvim_create_autocmd("LspAttach", {
   group = vim.api.nvim_create_augroup("UserLspKeys", { clear = true }),
   callback = function(event)
-    local client = vim.lsp.get_client_by_id(event.data.client_id)
-    if client and client:supports_method("textDocument/completion") then
-      local triggers = client.server_capabilities.completionProvider.triggerCharacters or {}
-      for char in ("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_$"):gmatch(".") do
-        if not vim.tbl_contains(triggers, char) then triggers[#triggers + 1] = char end
-      end
-      client.server_capabilities.completionProvider.triggerCharacters = triggers
-      vim.lsp.completion.enable(true, client.id, event.buf, { autotrigger = true })
-    end
     local function map(key, action, description)
       vim.keymap.set("n", key, action, { buffer = event.buf, desc = description })
     end

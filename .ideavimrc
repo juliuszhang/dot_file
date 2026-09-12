@@ -1,0 +1,51 @@
+" Leader key
+let mapleader = " "
+
+" --- General options ---
+set scrolloff=5
+set number
+set relativenumber
+set incsearch
+set hlsearch
+set ideajoin
+set clipboard=unnamedplus,ideaput
+" Keep the current Vim mode while refactoring.
+set idearefactormode=keep
+set functextobj
+set ignorecase
+set smartcase
+set VimEverywhere
+
+Plug 'machakann/vim-highlightedyank'
+Plug 'tpope/vim-commentary'
+Plug 'tpope/vim-surround'
+Plug 'easymotion/vim-easymotion'
+Plug 'terryma/vim-multiple-cursors'
+Plug 'tpope/vim-abolish'
+
+
+" Project tree
+set NERDTree
+" 显示或隐藏项目树
+nnoremap <leader>e :NERDTreeToggle<CR>
+" 在项目树中定位当前文件
+nnoremap <leader>l :NERDTreeFind<CR>
+
+" --- IDE actions ---
+nmap <leader>f <Action>(ReformatCode)
+nmap <leader>i <Action>(OptimizeImports)
+nmap <leader>r <Action>(RenameElement)
+nmap <leader>m <Action>(ExtractMethod)
+nmap <leader>w <Action>(CloseContent)
+nmap <leader>W <Action>(CloseAllEditorsButActive)
+nmap <leader>b <Action>(ToggleLineBreakpoint)
+nmap <leader>o <Action>(GotoClass)
+nmap <leader>t <Action>(ActivateTerminalToolWindow)
+nmap <s-l> <Action>(NextTab)
+nmap <s-h> <Action>(PreviousTab)
+nmap ]d <Action>(GotoNextError)
+nmap [d <Action>(GotoPreviousError)
+nnoremap <leader><CR> :nohlsearch<CR>
+
+" --- Input method (requires IdeaVimExtension) ---
+set keep-english-in-normal
