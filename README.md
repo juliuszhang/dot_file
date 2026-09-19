@@ -14,7 +14,7 @@ Neovim 首次启动会由内置 `vim.pack` 安装锁定版本的插件。随后�
 
 ```vim
 :MasonInstall jdtls lua-language-server typescript-language-server
-:lua require('nvim-treesitter').install({'java', 'lua'})
+:TSInstallConfigured
 ```
 
 等待安装完成后重新打开 Java 文件。更新插件使用 `:lua vim.pack.update()`。
@@ -31,13 +31,13 @@ Neovim Leader 是空格：
 
 底部 lualine 显示模式、文件名、诊断、文件类型图标和位置；顶部 bufferline 显示已打开文件（buffer 标签）。使用支持真彩色的终端，字体选择 Nerd Font（本机已安装 JetBrainsMono Nerd Font）。
 
-补全使用 blink.cmp，来源包括 LSP、路径、代码片段和当前缓冲区；候选项预选开启，自动插入关闭，使用 `enter` 按键预设，`Ctrl-Space` 映射已清空。Lua、JavaScript/TypeScript 和 Java 的语言服务器配置分别位于 `init.lua` 和 `ftplugin/java.lua`。
+补全使用 blink.cmp，来源包括 LSP、路径、代码片段和当前缓冲区；候选项预选开启，自动插入关闭，使用 `enter` 按键预设，`Ctrl-Space` 映射已清空。Lua、JavaScript/TypeScript 的语言服务配置位于 `lua/config/lsp.lua`，Java 配置位于 `lua/config/java.lua`，由 `ftplugin/java.lua` 加载。配置结构和安装说明见 [Neovim README](.config/nvim/README.md)。
 
-`gr` 立即打开 Telescope 引用列表，不再等待默认 `gr…` 按键序列；重命名使用 `<leader>rn`，代码操作使用 `<leader>ca`。`Shift-h/l` 用于切换文件，覆盖 Vim 原生的屏幕顶部/底部跳转。
+`grr` 打开 Telescope 引用列表；重命名使用 `<leader>rn`，代码操作使用 `<leader>ca`。`Shift-h/l` 用于切换文件，覆盖 Vim 原生的屏幕顶部/底部跳转。
 
 | 按键 | 功能 |
 | --- | --- |
-| `gd` / `gy` / `gi` / `gr` | 定义 / 类型 / 实现 / 引用 |
+| `gd` / `gy` / `gi` / `grr` | 定义 / 类型 / 实现 / 引用 |
 | `<leader>i` | Java 整理导包 |
 | `<leader>a` | 切换 Git blame（再次按下关闭） |
 | `<leader>e` / `<leader>l` | NERDTree 开关 / 定位当前文件 |
@@ -46,7 +46,10 @@ Neovim Leader 是空格：
 | `<leader>W` | 关闭其他文件标签，保留未保存文件 |
 | `<leader>F` | LSP 格式化当前文件 |
 | `<leader>ff` / `<leader>fg` | 文件 / 全文搜索 |
-| `<leader>cs` / `<leader>ds` | 项目 / 当前文件符号 |
+| `<leader>o` | 项目符号（Java 排除第三方和 JDK 类） |
+| `<leader>O` | 全部符号（包含第三方和 JDK 类） |
+| `<leader>ds` | 当前文件符号 |
+| `<leader>gi` | 回到上次插入位置并进入插入模式 |
 | `<leader>D` / `<leader>fd` | 当前行诊断 / 诊断列表 |
 | `[d` / `]d` | 前一个 / 后一个诊断 |
 | `crc` / `crp` | 当前单词转小驼峰 / 大驼峰 |

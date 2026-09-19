@@ -1,0 +1,10 @@
+# Local logs, backups and editor temporary files
+*.log
+backups/
+*.bak
+*.swp
+*.swo
+*~
+.DS_Store
+.env
+.env.*

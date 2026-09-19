@@ -1,0 +1,286 @@
+{
+  "流程图：方向及两个节点": {
+    "prefix": "flowchart",
+    "description": "流程图：方向及两个节点",
+    "body": [
+      "flowchart ${1:TD}",
+      "  ${2:A}[${3:开始}] --> ${4:B}[${5:结束}]",
+      "  $0"
+    ]
+  },
+  "流程图：graph 声明": {
+    "prefix": "graph",
+    "description": "流程图：graph 声明",
+    "body": [
+      "graph ${1:TD}",
+      "  ${2:A}[${3:开始}] --> ${4:B}[${5:结束}]",
+      "  $0"
+    ]
+  },
+  "流程图：子图": {
+    "prefix": "subgraph",
+    "description": "流程图：子图",
+    "body": [
+      "subgraph ${1:id}[${2:标题}]",
+      "  direction ${3:TB}",
+      "  $0",
+      "end"
+    ]
+  },
+  "节点：矩形": {
+    "prefix": "node",
+    "description": "节点：矩形",
+    "body": [
+      "${1:A}[${2:文本}]$0"
+    ]
+  },
+  "节点：圆角矩形": {
+    "prefix": "round",
+    "description": "节点：圆角矩形",
+    "body": [
+      "${1:A}(${2:文本})$0"
+    ]
+  },
+  "节点：开始或结束": {
+    "prefix": "stadium",
+    "description": "节点：开始或结束",
+    "body": [
+      "${1:A}([${2:文本}])$0"
+    ]
+  },
+  "节点：菱形判断": {
+    "prefix": "decision",
+    "description": "节点：菱形判断",
+    "body": [
+      "${1:A}{${2:条件}}$0"
+    ]
+  },
+  "节点：圆柱数据库": {
+    "prefix": "database",
+    "description": "节点：圆柱数据库",
+    "body": [
+      "${1:DB}[(${2:数据库})]$0"
+    ]
+  },
+  "节点：圆形": {
+    "prefix": "circle",
+    "description": "节点：圆形",
+    "body": [
+      "${1:A}((${2:文本}))$0"
+    ]
+  },
+  "连线：实线箭头": {
+    "prefix": "link",
+    "description": "连线：实线箭头",
+    "body": [
+      "${1:A} --> ${2:B}$0"
+    ]
+  },
+  "连线：带文字的箭头": {
+    "prefix": "label",
+    "description": "连线：带文字的箭头",
+    "body": [
+      "${1:A} -->|${2:条件}| ${3:B}$0"
+    ]
+  },
+  "连线：虚线箭头": {
+    "prefix": "dotted",
+    "description": "连线：虚线箭头",
+    "body": [
+      "${1:A} -.-> ${2:B}$0"
+    ]
+  },
+  "连线：粗箭头": {
+    "prefix": "thick",
+    "description": "连线：粗箭头",
+    "body": [
+      "${1:A} ==> ${2:B}$0"
+    ]
+  },
+  "样式：设置节点颜色": {
+    "prefix": "style",
+    "description": "样式：设置节点颜色",
+    "body": [
+      "style ${1:A} fill:${2:#e0f2fe},stroke:${3:#0284c7},color:${4:#0f172a}$0"
+    ]
+  },
+  "样式：定义可复用样式类": {
+    "prefix": "classDef",
+    "description": "样式：定义可复用样式类",
+    "body": [
+      "classDef ${1:highlight} fill:${2:#fef3c7},stroke:${3:#d97706},color:${4:#111827}$0"
+    ]
+  },
+  "样式：将样式类应用到节点": {
+    "prefix": "class",
+    "description": "样式：将样式类应用到节点",
+    "body": [
+      "class ${1:A,B} ${2:highlight}$0"
+    ]
+  },
+  "时序图：参与者及请求响应": {
+    "prefix": "sequenceDiagram",
+    "description": "时序图：参与者及请求响应",
+    "body": [
+      "sequenceDiagram",
+      "  participant ${1:A} as ${2:客户端}",
+      "  participant ${3:B} as ${4:服务端}",
+      "  ${1:A}->>${3:B}: ${5:请求}",
+      "  ${3:B}-->>${1:A}: ${6:响应}",
+      "  $0"
+    ]
+  },
+  "时序图：参与者": {
+    "prefix": "participant",
+    "description": "时序图：参与者",
+    "body": [
+      "participant ${1:A} as ${2:名称}$0"
+    ]
+  },
+  "时序图：角色": {
+    "prefix": "actor",
+    "description": "时序图：角色",
+    "body": [
+      "actor ${1:User} as ${2:用户}$0"
+    ]
+  },
+  "时序图：实线消息": {
+    "prefix": "message",
+    "description": "时序图：实线消息",
+    "body": [
+      "${1:A}->>${2:B}: ${3:消息}$0"
+    ]
+  },
+  "时序图：虚线回复": {
+    "prefix": "reply",
+    "description": "时序图：虚线回复",
+    "body": [
+      "${1:B}-->>${2:A}: ${3:响应}$0"
+    ]
+  },
+  "时序图：备注": {
+    "prefix": "Note",
+    "description": "时序图：备注",
+    "body": [
+      "Note ${1:over} ${2:A}: ${3:备注内容}$0"
+    ]
+  },
+  "时序图：循环": {
+    "prefix": "loop",
+    "description": "时序图：循环",
+    "body": [
+      "loop ${1:条件}",
+      "  ${2:A}->>${3:B}: ${4:消息}",
+      "end",
+      "$0"
+    ]
+  },
+  "时序图：条件分支": {
+    "prefix": "alt",
+    "description": "时序图：条件分支",
+    "body": [
+      "alt ${1:条件}",
+      "  ${2:A}->>${3:B}: ${4:消息}",
+      "else ${5:其他情况}",
+      "  ${3:B}-->>${2:A}: ${6:响应}",
+      "end",
+      "$0"
+    ]
+  },
+  "时序图：可选操作": {
+    "prefix": "opt",
+    "description": "时序图：可选操作",
+    "body": [
+      "opt ${1:条件}",
+      "  ${2:A}->>${3:B}: ${4:消息}",
+      "end",
+      "$0"
+    ]
+  },
+  "时序图：激活参与者": {
+    "prefix": "activate",
+    "description": "时序图：激活参与者",
+    "body": [
+      "activate ${1:A}$0"
+    ]
+  },
+  "时序图：结束激活": {
+    "prefix": "deactivate",
+    "description": "时序图：结束激活",
+    "body": [
+      "deactivate ${1:A}$0"
+    ]
+  },
+  "时序图：自动编号": {
+    "prefix": "autonumber",
+    "description": "时序图：自动编号",
+    "body": [
+      "autonumber$0"
+    ]
+  },
+  "类图：类及成员": {
+    "prefix": "classDiagram",
+    "description": "类图：类及成员",
+    "body": [
+      "classDiagram",
+      "  class ${1:Example} {",
+      "    +${2:String} ${3:name}",
+      "    +${4:run}() ${5:void}",
+      "  }",
+      "  $0"
+    ]
+  },
+  "状态图：初始状态及终止状态": {
+    "prefix": "stateDiagram",
+    "description": "状态图：初始状态及终止状态",
+    "body": [
+      "stateDiagram-v2",
+      "  [*] --> ${1:Idle}",
+      "  ${1:Idle} --> ${2:Running}: ${3:start}",
+      "  ${2:Running} --> [*]",
+      "  $0"
+    ]
+  },
+  "实体关系图：一对多关系": {
+    "prefix": "erDiagram",
+    "description": "实体关系图：一对多关系",
+    "body": [
+      "erDiagram",
+      "  ${1:CUSTOMER} ||--o{ ${2:ORDER} : ${3:places}",
+      "  $0"
+    ]
+  },
+  "饼图：标题及数据": {
+    "prefix": "pie",
+    "description": "饼图：标题及数据",
+    "body": [
+      "pie title ${1:标题}",
+      "  \"${2:类别A}\" : ${3:60}",
+      "  \"${4:类别B}\" : ${5:40}",
+      "  $0"
+    ]
+  },
+  "甘特图：日期及任务": {
+    "prefix": "gantt",
+    "description": "甘特图：日期及任务",
+    "body": [
+      "gantt",
+      "  title ${1:项目计划}",
+      "  dateFormat YYYY-MM-DD",
+      "  section ${2:阶段}",
+      "  ${3:任务} :${4:task1}, ${5:2026-09-19}, ${6:7d}",
+      "  $0"
+    ]
+  },
+  "思维导图：根节点及分支": {
+    "prefix": "mindmap",
+    "description": "思维导图：根节点及分支",
+    "body": [
+      "mindmap",
+      "  root((${1:主题}))",
+      "    ${2:分支一}",
+      "    ${3:分支二}",
+      "  $0"
+    ]
+  }
+}
