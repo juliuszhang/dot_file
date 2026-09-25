@@ -34,7 +34,6 @@ vim.pack.add({
   -- nvim-web-devicons：文件类型图标，供状态栏、文件标签等组件使用。
   { src = "https://github.com/nvim-tree/nvim-web-devicons" },
   -- lualine：底部状态栏，显示模式、分支、诊断、文件信息等。
-  -- plenary：Lua 通用工具库，供 Telescope 等插件使用。
   { src = "https://github.com/nvim-lualine/lualine.nvim" },
   -- bufferline：顶部文件标签栏；版本限制在 4.x 系列。
   { src = "https://github.com/akinsho/bufferline.nvim", version = vim.version.range("4.x") },
@@ -46,7 +45,6 @@ vim.pack.add({
   { src = "https://github.com/nvim-lua/plenary.nvim" },
   -- Telescope：文件、文本、符号等模糊搜索；* 是版本范围，不是固定某个版本。
   { src = "https://github.com/nvim-telescope/telescope.nvim", version = vim.version.range("*") },
-  -- nvim-web-devicons：文件类型图标，供状态栏、文件标签等组件使用。
   -- nvim-treesitter：管理语法解析器，这里跟踪 main 分支。
   { src = "https://github.com/nvim-treesitter/nvim-treesitter", version = "main" },
   -- nvim-surround：添加、修改、删除括号或引号等包围符，使用 4.x 系列。

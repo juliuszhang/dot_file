@@ -13,11 +13,7 @@ vim.opt.number = true
 -- 其他行显示距当前行的行数，便于使用 3j、5k 等相对移动。
 vim.opt.relativenumber = true
 
--- Detect file types (including TypeScript and TSX) and load their syntax rules.
--- 开启文件类型识别、文件类型专属配置（ftplugin）和缩进规则。
-vim.cmd("filetype plugin indent on")
--- 开启传统语法高亮；Tree-sitter 模块还会在解析器不可用时回退到它。
-vim.cmd("syntax enable")
+-- 文件类型识别（含 ftplugin/缩进）和传统语法高亮在 Neovim 中默认开启，无需再设置。
 
 -- Set leaders before loading any plugins or mappings.
 -- 全局快捷键前缀设为空格；例如 <leader>e 表示先按空格，再按 e。
@@ -47,8 +43,6 @@ vim.opt.laststatus = 3
 vim.opt.showmode = false
 -- 2 = 始终显示顶部标签栏区域，后续由 bufferline 展示文件标签。
 vim.opt.showtabline = 2
--- 允许切换离开尚未保存的 buffer，使其留在后台；不会自动保存，也与隐藏文件无关。
-vim.opt.hidden = true
 -- a = 在各编辑模式中启用鼠标，可点击定位、选择文本、拖动分屏边界。
 vim.opt.mouse = "a"
 

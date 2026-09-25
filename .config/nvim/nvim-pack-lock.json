@@ -23,11 +23,6 @@
       "rev": "b4d01b0fdf3c9a549961c2f9ffe8dc09be166219",
       "src": "https://github.com/rafamadriz/friendly-snippets"
     },
-    "hop.nvim": {
-      "rev": "08ddca799089ab96a6d1763db0b8adc5320bf050",
-      "src": "https://github.com/smoka7/hop.nvim",
-      "version": ">=0.0.0"
-    },
     "lualine.nvim": {
       "rev": "221ce6b2d999187044529f49da6554a92f740a96",
       "src": "https://github.com/nvim-lualine/lualine.nvim"
@@ -74,10 +69,6 @@
     "vim-abolish": {
       "rev": "dcbfe065297d31823561ba787f51056c147aa682",
       "src": "https://github.com/tpope/vim-abolish"
-    },
-    "vim-easymotion": {
-      "rev": "b3cfab2a6302b3b39f53d9fd2cd997e1127d7878",
-      "src": "https://github.com/easymotion/vim-easymotion"
     },
     "vim-fugitive": {
       "rev": "3b753cf8c6a4dcde6edee8827d464ba9b8c4a6f0",

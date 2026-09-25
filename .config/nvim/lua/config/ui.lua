@@ -156,7 +156,7 @@ vim.g.NERDTreeChDirMode = 0
 vim.keymap.set("n", "<leader>e", "<cmd>NERDTreeToggle<cr>", { desc = "Toggle file tree" })
 -- 空格 l：在文件树中定位当前文件（这里是小写字母 L）。
 vim.keymap.set("n", "<leader>l", "<cmd>NERDTreeFind<cr>", { desc = "Locate current file in tree" })
--- 垂直分屏
-vim.keymap.set("n", "<leader>s", "<cmd>split<cr>",{desc="split"})
--- 水平分屏
-vim.keymap.set("n", "<leader>v", "<cmd>vsplit<cr>",{desc="vsplit"})
+-- 空格 s：上下分屏（水平分割）。
+vim.keymap.set("n", "<leader>s", "<cmd>split<cr>", { desc = "Split window horizontally" })
+-- 空格 v：左右分屏（垂直分割）。
+vim.keymap.set("n", "<leader>v", "<cmd>vsplit<cr>", { desc = "Split window vertically" })

@@ -50,7 +50,6 @@ vim.keymap.set("n", "<leader>fg", "<cmd>Telescope live_grep<cr>", { desc = "Sear
 vim.keymap.set("n", "<leader>fb", "<cmd>Telescope buffers<cr>", { desc = "Find open buffers" })
 -- 空格 f h：搜索 Neovim/插件帮助标签。
 vim.keymap.set("n", "<leader>fh", "<cmd>Telescope help_tags<cr>", { desc = "Search help" })
-vim.keymap.set("n", "<leader>s", "<cmd>split<cr>",{desc="split"})
 -- 空格 空格 s：启动 Flash，输入搜索内容后按提示标签跳转；支持选择和操作符组合。
 vim.keymap.set({ "n", "x", "o" }, "<leader><leader>s", function()
   require("flash").jump()

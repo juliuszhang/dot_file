@@ -118,8 +118,9 @@ vim.lsp.config("ts_ls", {
   filetypes = { "javascript", "javascriptreact", "typescript", "typescriptreact" },
   -- 确定项目根目录，通过 on_dir(目录) 告诉 LSP 应在哪个项目启动。
   root_dir = function(bufnr, on_dir)
-    -- 向上寻找 JS/TS 项目标记；这里没有像 Lua 配置那样设置目录回退值。
-    on_dir(vim.fs.root(bufnr, { "tsconfig.json", "jsconfig.json", "package.json", ".git" }))
+    -- 向上寻找 JS/TS 项目标记；找不到时不调用 on_dir，即不为该文件启动服务器。
+    local root = vim.fs.root(bufnr, { "tsconfig.json", "jsconfig.json", "package.json", ".git" })
+    if root then on_dir(root) end
   end,
 })
 -- 已安装 typescript-language-server 时才启用自动附加。

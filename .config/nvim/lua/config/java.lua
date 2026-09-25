@@ -88,7 +88,7 @@ function M.setup()
     -- -data 指定 jdtls 的工作数据目录，不是项目源代码目录。
     cmd = { jdtls_bin, "-data", workspace },
     -- 只给语言服务子进程设置 JAVA_HOME 和优先 PATH，不修改父终端的项目环境。
-    cmd_env = java_home and { JAVA_HOME = java_home, PATH = java_home .. "/bin:" .. vim.env.PATH } or nil,
+    cmd_env = { JAVA_HOME = java_home, PATH = java_home .. "/bin:" .. vim.env.PATH },
     -- 用项目根目录划分语言服务的工作范围。
     root_dir = root,
     -- 把补全能力和文件监听限制交给语言服务器。
