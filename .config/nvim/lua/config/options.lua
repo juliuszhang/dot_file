@@ -46,6 +46,29 @@ vim.opt.showtabline = 2
 -- a = 在各编辑模式中启用鼠标，可点击定位、选择文本、拖动分屏边界。
 vim.opt.mouse = "a"
 
+-- 小写搜索忽略大小写；包含大写时精确匹配。
+vim.opt.ignorecase = true
+vim.opt.smartcase = true
+-- 新分屏出现在右侧/下方，光标周围保留少量可见上下文。
+vim.opt.splitright = true
+vim.opt.splitbelow = true
+vim.opt.scrolloff = 5
+vim.opt.sidescrolloff = 5
+-- 始终预留左侧标记栏，避免诊断图标出现时正文左右跳动。
+vim.opt.signcolumn = "yes"
+
+-- 回到编辑器或切回文件时检查磁盘更新；未保存的 buffer 不自动覆盖。
+vim.opt.autoread = true
+vim.api.nvim_create_autocmd({ "FocusGained", "BufEnter" }, {
+  group = vim.api.nvim_create_augroup("UserChecktime", { clear = true }),
+  callback = function(event)
+    if vim.bo[event.buf].buftype == "" and not vim.bo[event.buf].modified
+      and vim.fn.getcmdwintype() == "" and vim.fn.mode() == "n" then
+      vim.cmd("checktime " .. event.buf)
+    end
+  end,
+})
+
 -- 注册自动命令：当文件类型被设定时运行回调，下面只针对 Java。
 vim.api.nvim_create_autocmd("FileType", {
   -- 把规则归入 UserIndent；clear 清除该组旧规则，避免重新执行配置时重复注册。

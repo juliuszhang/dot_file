@@ -4,10 +4,6 @@
 -- 本文件配置 Lua、JavaScript/TypeScript；Java 由 ftplugin/java.lua 单独启动。
 -- 快捷键 <leader> 是空格；大写 D/F/K 等需要 Shift，grr 是依次按 g、r、r。
 
--- 始终预留左侧标记栏，避免诊断图标出现时正文左右跳动。
-vim.opt.signcolumn = "yes"
--- 启用诊断显示。
-vim.diagnostic.enable(true)
 -- 统一配置警告、错误等诊断信息的显示方式。
 vim.diagnostic.config({
   -- 在行尾显示诊断文字，间隔 2 个空格；存在多个来源时显示来源名。
@@ -25,8 +21,22 @@ vim.diagnostic.config({
 })
 -- 空格 Shift+d：浮窗查看当前行诊断。
 vim.keymap.set("n", "<leader>D", function() vim.diagnostic.open_float({ scope = "line" }) end, { desc = "Line diagnostics" })
--- 空格 Shift+f：调用当前 buffer 可用的语言服务进行格式化。
-vim.keymap.set("n", "<leader>F", function() vim.lsp.buf.format() end, { desc = "Format current buffer" })
+-- 按文件类型选择格式化工具；未列出的类型（如 Java）回退到语言服务格式化。
+-- stylua、prettierd 通过 :MasonInstall 安装，Mason 会把它们加入 PATH。
+require("conform").setup({
+  formatters_by_ft = {
+    lua = { "stylua" },
+    javascript = { "prettierd" },
+    javascriptreact = { "prettierd" },
+    typescript = { "prettierd" },
+    typescriptreact = { "prettierd" },
+    json = { "prettierd" },
+    markdown = { "prettierd" },
+  },
+  default_format_opts = { lsp_format = "fallback" },
+})
+-- 空格 Shift+f：格式化当前 buffer。
+vim.keymap.set("n", "<leader>F", function() require("conform").format() end, { desc = "Format current buffer" })
 -- 空格 f d：用 Telescope 搜索诊断。
 vim.keymap.set("n", "<leader>fd", function() require("telescope.builtin").diagnostics() end, { desc = "Search diagnostics" })
 -- [d：跳到上一条诊断，并打开说明浮窗。
@@ -52,20 +62,17 @@ require("blink.cmp").setup({
   },
   -- 补全来源依次包括语言服务、文件路径、代码片段、buffer 文本。
   sources = { default = { "lsp", "path", "snippets", "buffer" } },
-  -- 使用 Lua 模糊匹配实现。
-  fuzzy = { implementation = "lua" },
+  -- 优先使用预编译的 Rust 模糊匹配（按当前版本标签自动下载），不可用时回退到 Lua 并提示。
+  fuzzy = { implementation = "prefer_rust_with_warning" },
   -- 启用函数签名/参数提示。
   signature = { enabled = true },
 })
--- 取得补全插件支持的能力，随后告诉语言服务器，以便提供匹配的补全结果。
-local lsp_capabilities = require("blink.cmp").get_lsp_capabilities()
+-- blink.cmp 在 Neovim 0.11+ 会自动把补全能力写入 vim.lsp.config("*")，各服务器无需再单独传入。
 
 -- 注册 Lua 语言服务器配置；注册配置与真正启用服务器是两个步骤。
 vim.lsp.config("lua_ls", {
   -- 从 Neovim 数据目录里的 Mason 安装位置启动 Lua 服务器。
   cmd = { vim.fn.stdpath("data") .. "/mason/bin/lua-language-server" },
-  -- 把 blink 的补全能力传给服务器。
-  capabilities = lsp_capabilities,
   -- 此服务只处理 Lua 文件。
   filetypes = { "lua" },
   -- 确定项目根目录，通过 on_dir(目录) 告诉 LSP 应在哪个项目启动。
@@ -112,8 +119,6 @@ end
 vim.lsp.config("ts_ls", {
   -- --stdio 表示通过标准输入/输出与编辑器通信。
   cmd = { vim.fn.stdpath("data") .. "/mason/bin/typescript-language-server", "--stdio" },
-  -- 把 blink 的补全能力传给服务器。
-  capabilities = lsp_capabilities,
   -- javascriptreact 和 typescriptreact 分别是 JSX、TSX 的文件类型名。
   filetypes = { "javascript", "javascriptreact", "typescript", "typescriptreact" },
   -- 确定项目根目录，通过 on_dir(目录) 告诉 LSP 应在哪个项目启动。
@@ -144,8 +149,8 @@ vim.api.nvim_create_autocmd("LspAttach", {
     map("gD", vim.lsp.buf.declaration, "Go to declaration")
     -- gy：跳到变量或表达式所对应的类型定义。
     map("gy", function() require("telescope.builtin").lsp_type_definitions() end, "Go to class/type")
-    -- gi：查找实现；jump_type = never 避免结果只有一项时直接跳走。
-    map("gi", function() require("telescope.builtin").lsp_implementations({ jump_type = "never" }) end, "Go to implementation")
+    -- gri：查找实现（覆盖内置 gri 以使用 Telescope，原生 gi 保持不变）；jump_type = never 避免结果只有一项时直接跳走。
+    map("gri", function() require("telescope.builtin").lsp_implementations({ jump_type = "never" }) end, "Go to implementation")
     -- grr：查找符号在项目中的引用位置。
     map("grr", function() require("telescope.builtin").lsp_references() end, "Find references")
     -- Shift+k：查看光标下符号的悬浮文档。

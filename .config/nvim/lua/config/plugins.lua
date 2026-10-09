@@ -29,6 +29,10 @@ vim.api.nvim_create_autocmd("PackChanged", {
 vim.pack.add({
   -- Catppuccin：配色主题，本地名称设为 catppuccin；在 ui.lua 中选择 mocha。
   { src = "https://github.com/catppuccin/nvim", name = "catppuccin" },
+  -- nui：Noice 浮动窗口所需的界面组件。
+  { src = "https://github.com/MunifTanjim/nui.nvim" },
+  -- Noice：浮动命令行、搜索输入框和消息展示。
+  { src = "https://github.com/folke/noice.nvim" },
   -- vim-abolish：单词变体替换、大小写和命名风格转换。
   { src = "https://github.com/tpope/vim-abolish" },
   -- nvim-web-devicons：文件类型图标，供状态栏、文件标签等组件使用。
@@ -63,4 +67,8 @@ vim.pack.add({
   { src = "https://github.com/saghen/blink.cmp", version = vim.version.range("1.x") },
   -- friendly-snippets：现成的多语言代码片段，供补全系统使用。
   { src = "https://github.com/rafamadriz/friendly-snippets" },
+  -- conform：按文件类型调用外部格式化工具（stylua、prettierd），没有时回退到语言服务。
+  { src = "https://github.com/stevearc/conform.nvim" },
+  -- vim-tmux-navigator：Ctrl+h/j/k/l 在 Neovim 分屏与 tmux 窗格之间直接切换。
+  { src = "https://github.com/christoomey/vim-tmux-navigator" },
 })

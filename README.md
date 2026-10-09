@@ -13,7 +13,7 @@ JetBrains IDE 需安装并启用 IdeaVim。配置中的 `keep-english-in-normal`
 Neovim 首次启动会由内置 `vim.pack` 安装锁定版本的插件。随后运行：
 
 ```vim
-:MasonInstall jdtls lua-language-server typescript-language-server
+:MasonInstall jdtls lua-language-server typescript-language-server stylua prettierd
 :TSInstallConfigured
 ```
 
@@ -23,7 +23,7 @@ Java LSP 会依次检查 `JDTLS_JAVA_HOME`、`JAVA_HOME`、Homebrew 和 macOS �
 
 编辑 `~/.config/nvim` 内的 Lua 文件时，自动以该目录为 LSP 根目录并加载 LuaJIT、`vim` 全局变量和 Neovim API 库。其他 Lua 项目按自己的配置文件或 Git 根目录识别。
 
-tmux 使用 `tmux source-file ~/.tmux.conf` 加载。复制功能调用 macOS 的 `pbcopy`；当前重载快捷键使用 `/Users/hikari/.tmux.conf`，其他用户名需调整该路径。
+tmux 使用 `tmux source-file ~/.tmux.conf` 加载，`Prefix r` 重载同一路径。复制功能调用 macOS 的 `pbcopy`，并开启 OSC 52（`set-clipboard on`）。
 
 ## 快捷键
 
@@ -37,19 +37,18 @@ Neovim Leader 是空格：
 
 | 按键 | 功能 |
 | --- | --- |
-| `gd` / `gy` / `gi` / `grr` | 定义 / 类型 / 实现 / 引用 |
+| `gd` / `gy` / `gri` / `grr` | 定义 / 类型 / 实现 / 引用（原生 `gi` 保持不变） |
 | `<leader>i` | Java 整理导包 |
 | `<leader>a` | 切换 Git blame（再次按下关闭） |
 | `<leader>e` / `<leader>l` | NERDTree 开关 / 定位当前文件 |
 | `Shift-h` / `Shift-l` | 前一个 / 后一个文件标签 |
 | `<leader>w` | 关闭当前文件标签并保留窗格布局，未保存时阻止关闭；最后一个文件关闭后保留空白编辑区 |
 | `<leader>W` | 关闭其他文件标签，保留未保存文件 |
-| `<leader>F` | LSP 格式化当前文件 |
+| `<leader>F` | 格式化当前文件（conform：Lua 用 stylua，JS/TS/JSON/Markdown 用 prettierd，其余回退 LSP） |
 | `<leader>ff` / `<leader>fg` | 文件 / 全文搜索 |
 | `<leader>o` | 项目符号（Java 排除第三方和 JDK 类） |
 | `<leader>O` | 全部符号（包含第三方和 JDK 类） |
 | `<leader>ds` | 当前文件符号 |
-| `<leader>gi` | 回到上次插入位置并进入插入模式 |
 | `<leader>D` / `<leader>fd` | 当前行诊断 / 诊断列表 |
 | `[d` / `]d` | 前一个 / 后一个诊断 |
 | `crc` / `crp` | 当前单词转小驼峰 / 大驼峰 |
@@ -58,8 +57,9 @@ Neovim Leader 是空格：
 | `<leader><leader>j` / `<leader><leader>k` | Flash 向下 / 向上按行跳转 |
 | `Ctrl-n`（普通模式） | 多光标选择当前单词，再次按下扩展选择 |
 | `ysiw)` / `ds\"` | Surround 添加括号 / 删除双引号 |
+| `Ctrl-h/j/k/l` | 在 Neovim 分屏与 tmux 窗格之间切换（vim-tmux-navigator） |
 
-tmux Prefix 是 `Ctrl-a`：`-` 上下分屏、`|` 左右分屏、`h/j/k/l` 切换窗格、`H/J/K/L` 调整尺寸、`r` 重载配置。`Prefix [` 进入 vi 复制模式，`v` 选择，`y` 复制，`q` 退出。
+tmux Prefix 是 `Ctrl-a`：`-` 上下分屏、`|` 左右分屏、`h/j/k/l` 切换窗格（也可直接 `Ctrl-h/j/k/l`，`Prefix Ctrl-l` 清屏）、`H/J/K/L` 调整尺寸、`r` 重载配置；窗口和窗格从 1 开始编号并自动重排。`Prefix [` 进入 vi 复制模式，`v` 选择，`y` 复制，`q` 退出。
 
 ## IdeaVim
 

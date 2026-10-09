@@ -34,5 +34,5 @@ vim.api.nvim_create_autocmd("FileType", {
 -- 定义手动命令 :TSInstallConfigured，把下载/编译工作与日常启动分开。
 vim.api.nvim_create_user_command("TSInstallConfigured", function()
   -- 这里填写解析器名；tsx 用于 TSX，markdown_inline 处理 Markdown 内联语法。
-  require("nvim-treesitter").install({ "java", "lua", "javascript", "typescript", "tsx", "json", "mermaid", "markdown", "markdown_inline" })
+  require("nvim-treesitter").install({ "java", "lua", "javascript", "typescript", "tsx", "json", "mermaid", "markdown", "markdown_inline", "vim", "regex", "bash" })
 end, { desc = "Install parsers used by this configuration" })

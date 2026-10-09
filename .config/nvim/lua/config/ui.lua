@@ -23,6 +23,19 @@ require("catppuccin").setup({
 })
 -- 应用上面配置好的 Catppuccin Mocha 主题。
 vim.cmd("colorscheme catppuccin-mocha")
+-- 浮动显示 : 命令和 /、? 搜索；消息使用内置 mini 视图。
+require("noice").setup({
+  cmdline = { view = "cmdline_popup" },
+  messages = { view = "mini", view_error = "mini", view_warn = "mini" },
+  notify = { enabled = false },
+  -- 参数提示继续由 blink.cmp 提供，其他语言服务界面沿用现有配置。
+  lsp = {
+    hover = { enabled = false },
+    signature = { enabled = false },
+    progress = { enabled = false },
+    message = { enabled = false },
+  },
+})
 -- 启用文件图标；未知类型也使用默认图标，显示效果取决于终端字体。
 require("nvim-web-devicons").setup({ default = true })
 -- 配置底部状态栏。

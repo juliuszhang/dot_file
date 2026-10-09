@@ -8,15 +8,32 @@ require("nvim-surround").setup({})
 require("nvim-autopairs").setup({})
 -- 启用 Flash 跳转，但关闭其 char 模式，保留 f/F/t/T 的原有字符查找行为。
 require("flash").setup({ modes = { char = { enabled = false } } })
--- 使用 Telescope 默认界面和搜索设置。
-require("telescope").setup({})
+-- 文件和全文搜索包含隐藏配置文件，仍遵循 .gitignore，并排除 Git 内部数据。
+require("telescope").setup({
+  pickers = {
+    find_files = { find_command = { "rg", "--files", "--hidden", "--glob", "!.git", "--color", "never" } },
+    live_grep = { additional_args = { "--hidden", "--glob", "!.git" } },
+  },
+})
 
--- 空格 g i：执行原生 gi，回到上次退出插入模式的位置并进入插入模式。
--- 默认非递归映射，因此不会触发 LSP 的 gi 映射。
-vim.keymap.set("n", "<leader>gi", "gi", { desc = "Resume insert at last position" })
+-- 从文件确定搜索范围，避免从主目录启动 nvim 后误搜整个主目录。
+-- 优先使用整个 Git 仓库；无 Git 时采用最近的构建标记或文件所在目录。
+local function search_root()
+  local file = vim.api.nvim_buf_get_name(0)
+  if vim.bo.buftype ~= "" or file == "" then return vim.fn.getcwd() end
+  local config = vim.fs.normalize(vim.fn.stdpath("config"))
+  if vim.startswith(vim.fs.normalize(file), config .. "/") then return config end
+  return vim.fs.root(0, { ".git" })
+    or vim.fs.root(0, { "pom.xml", "build.gradle", "build.gradle.kts", "package.json", "pyproject.toml", "Cargo.toml", "go.mod" })
+    or vim.fs.dirname(file)
+end
 
 -- 空格 f f：按文件名查找文件。
-vim.keymap.set("n", "<leader>ff", "<cmd>Telescope find_files<cr>", { desc = "Find files" })
+vim.keymap.set("n", "<leader>ff", function()
+  require("telescope.builtin").find_files({ cwd = search_root() })
+end, { desc = "Find project files" })
+-- 大写 F/G 保留按当前工作目录搜索的入口，便于临时跨项目查找。
+vim.keymap.set("n", "<leader>fF", "<cmd>Telescope find_files<cr>", { desc = "Find files in working directory" })
 -- 空格 a：切换当前 tabpage 的 Git blame，查看每行对应的提交归属。
 vim.keymap.set("n", "<leader>a", function()
   -- 记住操作前所在窗口，关闭 blame 后尽量返回这里。
@@ -45,7 +62,11 @@ vim.keymap.set("n", "<leader>a", function()
   vim.cmd("Git blame")
 end, { desc = "Toggle Git annotate (blame)" })
 -- 空格 f g：按内容搜索项目文本，live_grep 通常调用外部 rg（ripgrep）。
-vim.keymap.set("n", "<leader>fg", "<cmd>Telescope live_grep<cr>", { desc = "Search project text" })
+vim.keymap.set("n", "<leader>fg", function()
+  require("telescope.builtin").live_grep({ cwd = search_root() })
+end, { desc = "Search project text" })
+vim.keymap.set("n", "<leader>fG", "<cmd>Telescope live_grep<cr>", { desc = "Search text in working directory" })
+vim.keymap.set("n", "<Esc>", "<cmd>nohlsearch<cr>", { desc = "Clear search highlight" })
 -- 空格 f b：搜索已打开的 buffer。
 vim.keymap.set("n", "<leader>fb", "<cmd>Telescope buffers<cr>", { desc = "Find open buffers" })
 -- 空格 f h：搜索 Neovim/插件帮助标签。
@@ -70,4 +91,3 @@ end
 vim.keymap.set({ "n", "x", "o" }, "<leader><leader>j", function() flash_line(true) end, { desc = "Flash: line below" })
 -- 空格 空格 k：选择上方某一行并跳转。
 vim.keymap.set({ "n", "x", "o" }, "<leader><leader>k", function() flash_line(false) end, { desc = "Flash: line above" })
-
