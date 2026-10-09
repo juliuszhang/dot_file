@@ -69,6 +69,4 @@ vim.pack.add({
   { src = "https://github.com/rafamadriz/friendly-snippets" },
   -- conform：按文件类型调用外部格式化工具（stylua、prettierd），没有时回退到语言服务。
   { src = "https://github.com/stevearc/conform.nvim" },
-  -- vim-tmux-navigator：Ctrl+h/j/k/l 在 Neovim 分屏与 tmux 窗格之间直接切换。
-  { src = "https://github.com/christoomey/vim-tmux-navigator" },
 })

@@ -57,9 +57,8 @@ Neovim Leader 是空格：
 | `<leader><leader>j` / `<leader><leader>k` | Flash 向下 / 向上按行跳转 |
 | `Ctrl-n`（普通模式） | 多光标选择当前单词，再次按下扩展选择 |
 | `ysiw)` / `ds\"` | Surround 添加括号 / 删除双引号 |
-| `Ctrl-h/j/k/l` | 在 Neovim 分屏与 tmux 窗格之间切换（vim-tmux-navigator） |
 
-tmux Prefix 是 `Ctrl-a`：`-` 上下分屏、`|` 左右分屏、`h/j/k/l` 切换窗格（也可直接 `Ctrl-h/j/k/l`，`Prefix Ctrl-l` 清屏）、`H/J/K/L` 调整尺寸、`r` 重载配置；窗口和窗格从 1 开始编号并自动重排。`Prefix [` 进入 vi 复制模式，`v` 选择，`y` 复制，`q` 退出。
+tmux Prefix 是 `Ctrl-a`：`-` 上下分屏、`|` 左右分屏、`h/j/k/l` 切换窗格、`H/J/K/L` 调整尺寸、`r` 重载配置；窗口和窗格从 1 开始编号并自动重排。`Prefix [` 进入 vi 复制模式，`v` 选择，`y` 复制，`q` 退出。
 
 ## IdeaVim
 

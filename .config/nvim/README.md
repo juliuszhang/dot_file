@@ -60,7 +60,6 @@ Leader 为 **空格**，以下大写字母需要 Shift。
 | `<leader>rn` | 重命名符号 |
 | `<leader>ca` | 代码操作 |
 | `<leader>F` | 格式化当前文件：Lua 用 stylua，JS/TS/JSON/Markdown 用 prettierd，其他回退到语言服务 |
-| `Ctrl-h/j/k/l` | 在 Neovim 分屏与 tmux 窗格之间切换 |
 | `<leader>i` | 整理 Java import |
 
 语言服务相关快捷键在 LSP 连接当前文件后生效。补全使用 `blink.cmp`，Enter 确认候选项。
@@ -80,8 +79,6 @@ Leader 为 **空格**，以下大写字母需要 Shift。
 | --- | --- |
 | Prefix `-` / `\|` | 上下 / 左右分屏，继承当前目录 |
 | Prefix `c` | 在当前窗格目录新建窗口 |
-| `Ctrl-h/j/k/l` | 切换窗格；当前窗格是 Neovim 时先在其分屏间切换 |
-| Prefix `Ctrl-l` | 清屏（`Ctrl-l` 已用于切换窗格） |
 | Prefix `h/j/k/l` | 切换窗格，切换后输入立即交给应用 |
 | Prefix `H/J/K/L` | 调整窗格大小，可连续按 |
 | Prefix `[`，然后 `v`、`y` | 进入 vi 复制模式、选择、复制到 macOS 剪贴板 |
@@ -95,6 +92,6 @@ Ghostty 真彩色与焦点事件会传递给 Neovim，保留扩展按键协议�
 ## 更新记录
 
 - 2026-09-25：同步导航、LSP 项目识别及重复配置清理，补充搜索和 tmux 体验设置。
-- 2026-10-09：删除残留插件 hop.nvim / vim-easymotion，新增 conform.nvim 与 vim-tmux-navigator，blink.cmp 改用 Rust 模糊匹配。
+- 2026-10-09：删除残留插件 hop.nvim / vim-easymotion，新增 conform.nvim，blink.cmp 改用 Rust 模糊匹配。
 
 修改前建议先备份 `~/.tmux.conf` 与 `~/.config/nvim/`，恢复时退出 Neovim 后复制回原位并重载 tmux 配置。
