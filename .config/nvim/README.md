@@ -70,6 +70,9 @@ Leader 为 **空格**，以下大写字母需要 Shift。
 
 回到编辑器或切回文件时自动检查磁盘更新，只自动重载没有未保存修改的文件。
 普通搜索忽略大小写，包含大写字母时区分大小写。
+`:s` 替换实时预览，复制时短暂高亮复制范围；有未保存修改时 `:q` 会询问是否保存。
+Tree-sitter 同时负责缩进和折叠：`zM` 全部折叠、`za` 切换当前、`zR` 全部展开，打开文件时默认展开。
+已关闭 Python/Ruby/Perl/Node 外部插件接口（本配置插件均为 Lua）。
 
 ## tmux 配合
 
@@ -93,5 +96,6 @@ Ghostty 真彩色与焦点事件会传递给 Neovim，保留扩展按键协议�
 
 - 2026-09-25：同步导航、LSP 项目识别及重复配置清理，补充搜索和 tmux 体验设置。
 - 2026-10-09：删除残留插件 hop.nvim / vim-easymotion，新增 conform.nvim，blink.cmp 改用 Rust 模糊匹配。
+- 2026-10-09：补充 Tree-sitter 缩进/折叠、常用选项、复制高亮，关闭外部插件接口，Java 缩进移入 `ftplugin/java.lua`；tmux RGB 设置改为不写死下标并增加 `xterm-256color`。
 
 修改前建议先备份 `~/.tmux.conf` 与 `~/.config/nvim/`，恢复时退出 Neovim 后复制回原位并重载 tmux 配置。

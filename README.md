@@ -51,6 +51,7 @@ Neovim Leader 是空格：
 | `<leader>ds` | 当前文件符号 |
 | `<leader>D` / `<leader>fd` | 当前行诊断 / 诊断列表 |
 | `[d` / `]d` | 前一个 / 后一个诊断 |
+| `zM` / `za` / `zR` | Tree-sitter 折叠：全部折叠 / 切换当前 / 全部展开 |
 | `crc` / `crp` | 当前单词转小驼峰 / 大驼峰 |
 | `crs` / `cru` | 当前单词转下划线 / 全大写下划线 |
 | `<leader><leader>s` | Flash 搜索跳转 |

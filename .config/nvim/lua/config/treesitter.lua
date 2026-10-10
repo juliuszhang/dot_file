@@ -22,6 +22,16 @@ vim.api.nvim_create_autocmd("FileType", {
     if started and lang == "mermaid" then
       vim.bo[event.buf].syntax = "mermaid"
     end
+    if started then
+      -- 有 indents 查询的语言按语法树缩进，替代传统的正则缩进规则。
+      local indent_ok, indents = pcall(vim.treesitter.query.get, lang, "indents")
+      if indent_ok and indents then
+        vim.bo[event.buf].indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
+      end
+      -- 按语法树折叠（zM 全部折叠、za 切换当前、zR 全部展开）；仅作用于当前窗口中的此 buffer。
+      vim.wo[0][0].foldmethod = "expr"
+      vim.wo[0][0].foldexpr = "v:lua.vim.treesitter.foldexpr()"
+    end
     -- 缺少查询或启动失败时，停止 Tree-sitter，并回退到该文件类型的传统语法高亮。
     if not started then
       pcall(vim.treesitter.stop, event.buf)

@@ -7,6 +7,12 @@
 -- 删除也可能覆盖剪贴板；只删除不保存内容可用黑洞寄存器，例如 "_dd。
 vim.opt.clipboard = "unnamedplus"
 
+-- 本配置的插件均为 Lua，关闭 Python/Ruby/Perl/Node 外部插件接口，省去启动探测和 checkhealth 警告。
+vim.g.loaded_python3_provider = 0
+vim.g.loaded_ruby_provider = 0
+vim.g.loaded_perl_provider = 0
+vim.g.loaded_node_provider = 0
+
 -- Show the current line number and relative numbers on surrounding lines.
 -- 显示当前行的实际行号。
 vim.opt.number = true
@@ -56,6 +62,24 @@ vim.opt.scrolloff = 5
 vim.opt.sidescrolloff = 5
 -- 始终预留左侧标记栏，避免诊断图标出现时正文左右跳动。
 vim.opt.signcolumn = "yes"
+-- :s 替换时在正文实时预览，并在下方小窗口列出所有受影响的行。
+vim.opt.inccommand = "split"
+-- 高亮光标所在行，便于在大屏或分屏间定位光标。
+vim.opt.cursorline = true
+-- 有未保存修改时 :q 弹出“保存/不保存/取消”，而不是直接报 E37。
+vim.opt.confirm = true
+-- 长行折行后，续行保持与首行相同的缩进。
+vim.opt.breakindent = true
+-- 光标停止 250 毫秒即视为停留（默认 4 秒），LSP 同名高亮等更及时，交换文件也更早写入。
+vim.opt.updatetime = 250
+-- 打开文件时默认全部展开；Tree-sitter 折叠规则见 treesitter.lua。
+vim.opt.foldlevel = 99
+
+-- 复制时短暂高亮被复制的范围，确认复制内容是否正确。
+vim.api.nvim_create_autocmd("TextYankPost", {
+  group = vim.api.nvim_create_augroup("UserYankHighlight", { clear = true }),
+  callback = function() vim.hl.on_yank() end,
+})
 
 -- 回到编辑器或切回文件时检查磁盘更新；未保存的 buffer 不自动覆盖。
 vim.opt.autoread = true
@@ -66,20 +90,5 @@ vim.api.nvim_create_autocmd({ "FocusGained", "BufEnter" }, {
       and vim.fn.getcmdwintype() == "" and vim.fn.mode() == "n" then
       vim.cmd("checktime " .. event.buf)
     end
-  end,
-})
-
--- 注册自动命令：当文件类型被设定时运行回调，下面只针对 Java。
-vim.api.nvim_create_autocmd("FileType", {
-  -- 把规则归入 UserIndent；clear 清除该组旧规则，避免重新执行配置时重复注册。
-  group = vim.api.nvim_create_augroup("UserIndent", { clear = true }),
-  -- 匹配文件类型名 java，而不是文件名通配符 *.java。
-  pattern = "java",
-  -- event.buf 是触发此次事件的 buffer 编号。
-  callback = function(event)
-    -- 只把此 Java buffer 改为 4 列缩进；softtabstop = -1 会自动跟随。
-    vim.bo[event.buf].shiftwidth = 4
-    -- Java 中的真实 Tab 按 4 列制表位显示；expandtab 仍让新缩进使用空格。
-    vim.bo[event.buf].tabstop = 4
   end,
 })

@@ -4,4 +4,8 @@
 -- 模块本身有 require 缓存，但这里的 setup() 仍会在各 Java buffer 加载时执行。
 -- 它按项目启动或复用 jdtls，而不是为每个文件都创建独立的语言服务器。
 
+-- Java 使用 4 列缩进；softtabstop = -1 会跟随 shiftwidth，expandtab 仍让新缩进使用空格。
+vim.bo.shiftwidth = 4
+vim.bo.tabstop = 4
+
 require("config.java").setup()
