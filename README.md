@@ -61,6 +61,8 @@ Neovim Leader 是空格：
 
 tmux Prefix 是 `Ctrl-a`：`-` 上下分屏、`|` 左右分屏、`h/j/k/l` 切换窗格、`H/J/K/L` 调整尺寸、`r` 重载配置；窗口和窗格从 1 开始编号并自动重排。`Prefix [` 进入 vi 复制模式，`v` 选择，`y` 复制，`q` 退出。
 
+状态栏使用 Catppuccin Mocha 配色（与 Neovim 主题一致，无需插件）；按下 Prefix 后左侧会话名由紫色变为红色。
+
 ## IdeaVim
 
 Leader 是空格，启用相对行号、系统剪贴板、智能大小写搜索及 NERDTree 项目树。
